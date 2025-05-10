@@ -7,3 +7,16 @@ where skill in ('Python','Tableau', 'PostgreSQL')
 group by candidate_id
 having count(distinct skill) = 3
 order by candidate_id;
+
+-- Assume you're given two tables containing data about Facebook Pages and their respective likes (as in "Like a Facebook Page").
+
+-- Write a query to return the IDs of the Facebook pages that have zero likes. The output should be sorted in ascending order based on the page IDs.
+-- Pages     |      Page_likes
+-- page_id   |      user_id
+-- Page_name |      page_id
+--           |      date
+SELECT pages.page_id
+FROM pages
+LEFT OUTER JOIN page_likes pl 
+  ON pages.page_id = pl.page_id
+WHERE pl.page_id IS NULL;
