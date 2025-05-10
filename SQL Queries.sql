@@ -54,3 +54,14 @@ FROM posts
 where DATE_PART('year', post_date::DATE) = 2021
 group by user_id
 having count(post_id) >1
+
+-- Write a query to identify the top 2 Power Users who sent the highest number of messages on Microsoft Teams in August 2022. 
+-- Display the IDs of these 2 users along with the total number of messages they sent. Output the results in descending order based on the count of the messages.
+SELECT sender_id,
+count(message_id) as message_count
+FROM messages
+where EXTRACT(MONTH from sent_date) = '8'
+ AND EXTRACT(YEAR from sent_date) = '2022'
+ group by sender_id
+ order by message_count DESC
+ limit 2
