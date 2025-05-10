@@ -65,3 +65,38 @@ where EXTRACT(MONTH from sent_date) = '8'
  group by sender_id
  order by message_count DESC
  limit 2
+
+-- Assume you're given the tables containing completed trade orders and user details in a Robinhood trading system.
+
+-- Write a query to retrieve the top three cities that have the highest number of completed trade orders listed in descending order. 
+--Output the city name and the corresponding number of completed trade orders.
+SELECT u.city,
+count(order_id) as total_orders
+FROM trades
+INNER join users u on trades.user_id = u.user_id
+where trades.status = 'Completed'
+group by u.city
+order by total_orders DESC
+limit 3;
+
+-- Given the reviews table, write a query to retrieve the average star rating for each product, grouped by month. 
+-- The output should display the month as a numerical value, product ID, 
+-- and average star rating rounded to two decimal places. Sort the output first by month and then by product ID.
+SELECT EXTRACT(MONTH from submit_date) as mth, 
+product_id, 
+round(avg(stars),2) as avg_stars 
+FROM reviews
+GROUP by EXTRACT(MONTH from submit_date), product_id
+order by mth, product_id;
+
+-- Companies often perform salary analyses to ensure fair compensation practices. 
+-- One useful analysis is to check if there are any employees earning more than their direct managers.
+-- As a HR Analyst, you're asked to identify all employees who earn more than their direct managers. The result should include the employee's ID and name.
+SELECT 
+e.employee_id as employee_id, 
+e.name as employee_name
+FROM employee  as mng
+inner join employee as e
+on mng.employee_id = e.manager_id
+where e.salary > mng.salary
+;
